@@ -1,0 +1,273 @@
+<head>
+  <title>MD CRT Admin</title>
+ <!--
+  <script src="//tinymce.cachefly.net/4/tinymce.min.js"></script>
+  <script type="text/javascript">
+    tinyMCE.init({
+        mode : "textareas",
+        theme : "simple"
+    });
+</script>
+-->
+</head>
+
+<body>
+<div id="mainContent span12">
+<div class="navbar row span12">
+	<ul class="nav">
+		<li><a href="/"><i class="icon-home"></i> Home &nbsp; |</a></li> 
+		<li><a href="/browse/1"><i class="icon-search"></i> View Active &nbsp; |</a></li> 
+		<li><a href="/browse/inactive/1" id="inactive"><i class="icon-search"></i> View Inactive &nbsp; |</a></li> 
+		<li><a href="/new/"><i class="icon-plus"></i> Add New Record</a></li> 
+		<!-- <li><a href="#">Link</a></li>-->
+	</ul>
+</div>
+<div class="clearfix">&nbsp;</div>
+<div class="span12" id="content">
+	{{renderPage}}
+</div>
+</div>
+</body>
+
+
+
+<!-- Templates for user admin section -->
+
+
+    <template name="customUserListHeaders">
+    </template>
+    <template name="customUserListFields">
+    </template>
+
+    <template name="customUserInfoFields">
+    </template>
+    <template name="customUserEditFields">
+    </template>
+
+<!-- End templates for user admin section -->
+
+
+
+<template name="successModal">
+<div id="insertSuccess" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display: block;" >
+      <div class=" modal-dialog" >
+        <div class=" modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Modal Heading</h4>
+          </div>
+          <div class="modal-body">
+            <h4>Text in a modal</h4>
+
+            <h4>Overflowing text to show scroll behavior</h4>
+            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+</template>
+
+<!-- template to display all records -->
+<template name="browse">
+<div class="row span12 all">
+	<h3>All Records</h3>
+	<div class="records">
+		{{{pagination}}}
+	<ol>
+	{{#each results}}
+		<li class="span11">
+  		<div class="title pull-left">
+  			<strong>{{title}}</strong> &#8212; ({{category}})
+  		</div>
+
+		<span class="pull-right">
+			<a href="/edit/{{_id}}">Edit Record</a>&nbsp; | &nbsp;
+			<a href="#" class="delete" id="{{_id}}"><i class="icon-remove"></i> Delete record</a> 
+		</span>
+		</li>
+	{{/each}}
+	</ol>
+	<div class="clearfix">&nbsp;</div>
+		{{{pagination}}}
+
+	</div>
+</div>
+</template>
+<!-- End template to display all records -->
+
+
+<template name="browseInactive">
+<div class="row span12 all">
+	<h3>All Inactive Records</h3>
+
+	<h4>{{message}}</h4>
+
+	{{#if results.length}}
+	<div class="records">
+		{{{pagination}}}
+	<ol>
+	{{#each results}}
+		<li class="span11">
+  		<div class="title pull-left">
+  			<strong>{{category}}</strong> &#8212; {{title}} 
+  		</div>
+
+		<span class="pull-right">
+			<a href="/edit/{{_id}}">Edit Record</a>&nbsp; | &nbsp;
+			<a href="#" class="restore" id="{{_id}}"><i class="icon-plus"></i> Restore record</a> 
+		</span>
+		</li>
+	{{/each}}
+	</ol>
+	<div class="clearfix">&nbsp;</div>
+		{{{pagination}}}
+
+	</div>
+	{{/if}}
+</div>
+</template>
+<!-- End template to display all records -->
+
+
+
+<template name="editRecord">
+	<h3>{{heading}}</h3>
+	<div class="service row span6">
+
+		{{#autoForm schema='Services' doc=record}}
+			
+			<div class="drops">
+			{{afFieldLabel 'category'}}
+
+			{{afFieldInput 'category' id="hiddenCategory" type="hidden"}}
+			<select id="categories">
+				<option value="">Select a category</option>
+				{{#each categories}}
+				<option {{selected name}} value="{{name}}">{{name}}</option>
+				{{/each}}
+				
+			</select>
+			</div>
+			<div class="drops">
+
+			{{afFieldLabel 'personas'}}
+			{{afFieldInput 'personas' id="hiddenPersonas" type="hidden"}}
+			<select id="personas" multiple="true">
+				{{#each personas}}
+				<option {{selectedPersona name}} value="{{name}}">{{name}}</option>
+				{{/each}}
+				
+			</select>
+			</div>
+			{{afFieldLabel 'title'}}
+
+			{{afFieldInput 'title'}}
+
+
+
+			{{afFieldLabel 'subTitle'}}
+
+			{{afFieldInput 'subTitle'}}
+
+
+
+			{{afFieldLabel 'Description'}}
+
+			{{afFieldInput 'Description' rows=10}}
+
+
+			{{afFieldLabel 'address'}}
+
+			{{afFieldInput 'address'}}
+			
+
+
+			{{afFieldLabel 'phoneNumber'}}
+
+			{{afFieldInput 'phoneNumber'}}
+
+
+
+			{{afFieldLabel 'website'}}
+
+			{{afFieldInput 'website'}}
+
+
+
+			{{afFieldLabel 'contactPerson'}}
+
+			{{afFieldInput 'contactPerson'}}
+
+			{{afFieldInput 'active' class="invisible" checked="true"}}
+			
+
+			<br/>
+			<button type="submit" class="btn btn-primary {{functionality}}">Submit</button>
+		{{/autoForm}}
+
+  	</div>
+
+</template>
+
+
+<template name="servicesByCategory">
+	<div class="span12">
+		{{#with category}}
+		<h3 class="category">
+			{{name}}
+		</h3>
+		{{/with}}
+		<div class="records span9">
+
+			<h3>{{message}}</h3>
+
+		<ol>
+		{{#each services}}
+		<li class="span8">
+  		<div class="title pull-left">
+  			{{title}}
+  		</div>
+
+		<span class="pull-right">
+			<a href="/edit/{{_id}}">Edit Record</a>&nbsp; | &nbsp;
+			<a href="#" class="delete" id="{{_id}}"><i class="icon-remove"></i> Delete record</a> 
+		</li>
+		{{/each}}
+		</ol>
+		</div>
+	</div>
+</template>
+
+<template name="deleteRecord">
+
+</template>
+
+<template name="categoriesList">
+	<div class="span11">
+	<h3>Categories</h3>
+	<div class="row well span11">
+	<p>
+		Please select a category to view the services associated with it.
+	</p>
+
+	<ul>
+{{#each serviceCategories}}
+	<li>
+		<span class="category">
+			<a href="/services/{{formattedName}}">
+				{{name}}
+			</a>
+		</span>
+	</li>
+{{/each}}
+	</ul>
+</div>
+</div>
+</template>

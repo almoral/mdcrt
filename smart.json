@@ -1,0 +1,12 @@
+{
+  "packages": {
+    "collection2": {},
+    "autoform": {},
+    "accounts-admin-ui": {},
+    "bootstrap-3": {},
+    "smart-collections": {},
+    "router": {},
+    "handlebar-helpers": {},
+    "pagination": {}
+  }
+}
