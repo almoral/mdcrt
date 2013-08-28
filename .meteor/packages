@@ -4,12 +4,10 @@
 # but you can also edit it by hand.
 
 #standard-app-packages
-autopublish
 insecure
 preserve-inputs
 collection2
 autoform
-accounts-admin-ui
 bootstrap-3
 jqbootstrapvalidation
 jquery-ui
@@ -21,3 +19,9 @@ handlebar-helpers
 HTML5-History-API
 page-js-ie-support
 pagination
+bootstrap-wysiwyg
+autopublish
+standard-app-packages
+#accounts-admin-ui
+#collection-api
+roles

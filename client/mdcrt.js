@@ -8,6 +8,8 @@
     },
     '/browse/:page': function(page){
       Session.set('pageToDisplay', page);
+      Session.set('activeRecordCount', Services.find({'active': true}).count())
+      console.log(Session.get('activeRecordCount'));
       return 'browse';
     },
     '/browse/inactive/:page': function(page){
@@ -26,6 +28,7 @@
       heading = 'Create Record';
       Session.set('currentServiceId', '');
       arrPersonas = [];
+
       return 'editRecord';
     }
   });
@@ -37,7 +40,8 @@
       return Pagination.collection(Services.find({'active': true}).fetch());
     },
     pagination: function(){
-      return Pagination.links('/browse', Services.find({'active': true}).count(), {currentPage: Session.get('pageToDisplay'), perPage: 10, style: 'bootstrap'});
+      console.log('paging count: ', Session.get('activeRecordCount'));
+      return Pagination.links('/browse', Session.get('activeRecordCount'), {currentPage: Session.get('pageToDisplay'), perPage: 10, style: 'bootstrap'});
     }
   });
 
@@ -96,6 +100,7 @@
   Template.editRecord.helpers({
     record: function(){
         selected = Services.findOne(Session.get('currentServiceId'));
+
         return selected;
     },
     categories: function(){
@@ -109,7 +114,7 @@
       return functionality;
     },
     personas: function(){
-      return Personas.find().fetch();
+      return Personas.find();
     },
     selectedPersona: function(option){
       if(selected && option)
@@ -140,6 +145,11 @@
       };
       Template.find("[id=hiddenPersonas]").value = arrPersonas;
     }
+    /*,
+    'blur [id=address]': function(event, Template){
+      Template.find("[id=hiddenDescription]").value = tinyMCE.activeEditor.getContent();
+    }
+    */
   });
 
   Template.servicesByCategory.events({
@@ -160,23 +170,23 @@
     }
   });
 
+
+
   //Callbacks for the Form
   Services.callbacks({
     insert: function(error, result, template){
       if(error){
         console.log('Insert Error:', error.message);
       } else {
-       // $("#insertSuccess").modal();
+        //$("#insertSuccess").modal();
         window.history.back();
       }
     }, 
-    edit: function(error, result, template){
+    update: function(error, result, template){
       if(error){
         console.log('Edit Error:', error);
       } else {
-        //var notify = humane.create({baseCls: 'libnotify', clickToClose: true});
-        //notify.log('<p>Edited record successfully.</p>');
-        window.location.pathname="/browse/1";
+        window.history.back();
       }
     }    
   });

@@ -7,6 +7,8 @@
     "smart-collections": {},
     "router": {},
     "handlebar-helpers": {},
-    "pagination": {}
+    "pagination": {},
+    "bootstrap-wysiwyg": {},
+    "collection-api": {}
   }
 }
