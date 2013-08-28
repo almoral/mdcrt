@@ -145,16 +145,44 @@
 			
 			<div class="drops">
 			{{afFieldLabel 'category'}}
-
 			{{afFieldInput 'category' id="hiddenCategory" type="hidden"}}
 			<select id="categories">
 				<option value="">Select a category</option>
 				{{#each categories}}
-				<option {{selected name}} value="{{name}}">{{name}}</option>
+				<option {{selected name}} value="{{value}}">{{name}}</option>
 				{{/each}}
 				
 			</select>
+
+			{{#if afFieldIsInvalid 'category'}}
+
+				<span class="help-block">{{afFieldMessage 'category'}}</span>
+			{{/if}}
+
 			</div>
+
+
+
+			<div class="drops">
+			{{afFieldLabel 'subCategory'}}
+			{{afFieldInput 'subCategory' id="hiddenSubCat" type="hidden"}}
+			<select id="subCategories">
+
+				<option value="">Select a subcategory</option>
+				{{#each subCategories}}
+				<option {{selectedSubCategory value}} value="{{value}}">{{value}}</option>
+				{{/each}}
+				
+			</select>
+
+			{{#if afFieldIsInvalid 'subCategory'}}
+
+				<span class="help-block">{{afFieldMessage 'subCategory'}}</span>
+			{{/if}}
+
+			</div>
+			
+
 			<div class="drops">
 
 			{{afFieldLabel 'personas'}}
@@ -165,16 +193,25 @@
 				{{/each}}
 				
 			</select>
-			</div>
-			{{afFieldLabel 'title'}}
 
-			{{afFieldInput 'title'}}
+			{{#if afFieldIsInvalid 'personas'}}
+
+				<span class="help-block">{{afFieldMessage 'personas'}}</span>
+			{{/if}}
+			</div>
+
 
 
 
 			{{afFieldLabel 'subTitle'}}
 
 			{{afFieldInput 'subTitle'}}
+
+
+			{{#if afFieldIsInvalid 'subTitle'}}
+
+				<span class="help-block">{{afFieldMessage 'subTitle'}}</span>
+			{{/if}}
 
 
 			<div id="desc">
@@ -192,23 +229,40 @@
 
 			{{afFieldInput 'address' id="address"}}
 			
+			{{#if afFieldIsInvalid 'address'}}
+
+				<span class="help-block">{{afFieldMessage 'address'}}</span>
+			{{/if}}
 
 
 			{{afFieldLabel 'phoneNumber'}}
 
 			{{afFieldInput 'phoneNumber'}}
 
+			{{#if afFieldIsInvalid 'phoneNumber'}}
+
+				<span class="help-block">{{afFieldMessage 'phoneNumber'}}</span>
+			{{/if}}
 
 
 			{{afFieldLabel 'website'}}
 
 			{{afFieldInput 'website'}}
+			{{#if afFieldIsInvalid 'website'}}
 
+				<span class="help-block">{{afFieldMessage 'website'}}</span>
+			{{/if}}
 
 
 			{{afFieldLabel 'contactPerson'}}
 
 			{{afFieldInput 'contactPerson'}}
+
+			{{#if afFieldIsInvalid 'contactPerson'}}
+
+				<span class="help-block">{{afFieldMessage 'contactPerson'}}</span>
+			{{/if}}
+
 
 			{{afFieldInput 'active' class="invisible" checked="true"}}
 			

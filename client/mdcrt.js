@@ -99,9 +99,8 @@
 
   Template.editRecord.helpers({
     record: function(){
-        selected = Services.findOne(Session.get('currentServiceId'));
-
-        return selected;
+      selected = Services.findOne(Session.get('currentServiceId'));
+      return selected;
     },
     categories: function(){
       return ServiceCategories.find();
@@ -119,6 +118,19 @@
     selectedPersona: function(option){
       if(selected && option)
         return selected.personas.indexOf(option[0]) >= 0 ? 'selected': '';
+    },
+    subCategories: function(){
+
+      var currentRecord = Services.findOne(Session.get('currentServiceId'));
+      var subCats = SubCategories.find({mainCategory: currentRecord.category.toLowerCase().replace(/\s/g, '-')});
+      return subCats;
+
+    },
+    selectedSubCategory: function(option){
+      if(selected && option){
+
+        return selected.subCategories.indexOf(option[0]) >= 0 ? 'selected': '';
+      }
     }
   });
 
@@ -128,8 +140,18 @@
   Template.editRecord.events({
     'change [id=categories]':function(event, Template){
       var selection = Template.find("[id=categories]");
-      var category = selection.options[selection.selectedIndex].value;
+      var category = selection.options[selection.selectedIndex].label;
       Template.find("[id=hiddenCategory]").value = category;
+      
+     var subCats = SubCategories.find({mainCategory: selection.options[selection.selectedIndex].value});
+
+      var subcategorySelector = Template.find("[id=subCategories]");
+      subcategorySelector.options.length = 0;
+
+      subCats.forEach(function(subCat){
+          subcategorySelector.options[subcategorySelector.options.length] = new Option(subCat.name, subCat.value);
+      })
+
     },
     'change [id=personas]': function(event, Template){
       var selection = Template.find("[id=personas]");
