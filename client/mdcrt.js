@@ -121,15 +121,16 @@
     },
     subCategories: function(){
 
-      var currentRecord = Services.findOne(Session.get('currentServiceId'));
-      var subCats = SubCategories.find({mainCategory: currentRecord.category.toLowerCase().replace(/\s/g, '-')});
+      if(Services){
+      var subCats = SubCategories.find({mainCategory: Services.findOne(Session.get('currentServiceId')).category.toLowerCase().replace(/\s/g, '-')});
       return subCats;
-
+    }
     },
     selectedSubCategory: function(option){
-      if(selected && option){
+      if(selected.subCategory && option){
 
-        return selected.subCategories.indexOf(option[0]) >= 0 ? 'selected': '';
+        var selection = selected.subCategory.replace(/\s/g, "-").toLowerCase();
+        return selection.indexOf(option.toLowerCase().replace(/\s/g, '-')) >= 0 ? 'selected': '';
       }
     }
   });
@@ -152,6 +153,18 @@
           subcategorySelector.options[subcategorySelector.options.length] = new Option(subCat.name, subCat.value);
       })
 
+      if(subcategorySelector.options.length == 1){
+        var selection = Template.find("[id=subCategories]");
+        var subcat = selection.options[selection.selectedIndex].innerHTML;
+        Template.find("[id=hiddenSubCat]").value = subcat.toLowerCase().replace(/\s/g, "-");
+      }
+
+    },
+    'change [id=subCategories]': function(event, Template){
+      var selection = Template.find("[id=subCategories]");
+      var subcat = selection.options[selection.selectedIndex].innerHTML;
+
+      Template.find("[id=hiddenSubCat]").value = subcat;
     },
     'change [id=personas]': function(event, Template){
       var selection = Template.find("[id=personas]");
